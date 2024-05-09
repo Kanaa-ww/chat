@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>chat_Firebase</title>
+    <style>
+        .remove:hover {
+            background: aquamarine;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- コンテンツ表示画面 -->
+
+    <div>
+        <div> 名前：<input type="text" id="uname"></div>
+        <div>
+            <textarea id="text" cols="30" rows="10"></textarea>
+            <button id="send">送信</button>
+        </div>
+        <div id="output" style="overflow: auto;height: 300px;"></div>
+    </div>
+    <!--/ コンテンツ表示画面 -->
+
+    <!-- JQueryとは、、＄を使って短く書けるようにするもの！ -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <!-- JQuery -->
+    <!--** 以下Firebase **-->
+    <script type="module">
+        // Import the functions you need from the SDKs you need
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.11.1/firebase-app.js";
+        import { getDatabase, ref, push, set, onChildAdded, remove, onChildRemoved }
+            from "https://www.gstatic.com/firebasejs/10.11.1/firebase-database.js";
+
+        // TODO: Add SDKs for Firebase products that you want to use
+        // https://firebase.google.com/docs/web/setup#available-libraries
+
+        // Your web app's Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyDt0mZukABJ0Uu5Nt6htZzIR9Rw6k7oDmk",
+            authDomain: "chat-0509-42c85.firebaseapp.com",
+            projectId: "chat-0509-42c85",
+            storageBucket: "chat-0509-42c85.appspot.com",
+            messagingSenderId: "225843575160",
+            appId: "1:225843575160:web:5329b90fa1ec627dce708d"
+        };
+
+        // Initialize Firebase
+        const app = initializeApp(firebaseConfig); 
+        //定数としてappという箱を作ります。その中身は、firebaseConfignという引数を、
+        // initializeAppという関数に渡した時の、戻り値（結果）です。
+
+        const db = getDatabase(app);
+        const dbRef = ref(db, "chat");
+        const themeRef = ref(db, "theme");
+
+        
+        //クリックイベント（クリックした時に機能が処理されること）
+        //idとしてsendがついた htmlの要素を押した時、
+        //Jsで書いたとき→ document.getElementById("myCheck").click() { }
+        $("#send").on("click", function () {
+            const msg = {
+                uname: $("#uname").val(),
+                text: $("#text").val()
+            }
+            const newPostRef = push(dbRef);
+            set(newPostRef, msg);
+        });
+
+
+        //IDとしてtextがついたHTMLの要素に入力した時、
+        $("#text").on("keydown", function (e) {
+            console.log(e); //表示
+            if (e.keyCode == 13) {
+                const msg = {
+                    uname: $("#uname").val(),
+                    text: $("#text").val()
+                }
+                const newPostRef = push(dbRef);
+                set(newPostRef, msg);
+            }
+        });
+
+        onChildAdded(dbRef, function (data) {
+            const msg = data.val();
+            const key = data.key;
+            let h = '<p>';
+            h += msg.uname;
+            h += '<br>';
+            h += msg.text;
+            h += '</p>';
+            $("#output").append(h);
+        });
+    </script>
+
+</body>
+
+</html>
