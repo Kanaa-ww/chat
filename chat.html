@@ -8,13 +8,22 @@
         .remove:hover {
             background: aquamarine;
         }
+
+        .houhu h1 {
+            font-weight: bold;
+            font-size: 30px;
+            color: chartreuse;
+            /* padding: 30p */
+        }
     </style>
 </head>
 
 <body>
+    <div class="houhu">
+        <h1>今日の抱負!!</h1>
+    </div>
 
     <!-- コンテンツ表示画面 -->
-
     <div>
         <div> 名前：<input type="text" id="uname"></div>
         <div>
@@ -49,7 +58,7 @@
         };
 
         // Initialize Firebase
-        const app = initializeApp(firebaseConfig); 
+        const app = initializeApp(firebaseConfig);
         //定数としてappという箱を作ります。その中身は、firebaseConfignという引数を、
         // initializeAppという関数に渡した時の、戻り値（結果）です。
 
@@ -57,7 +66,7 @@
         const dbRef = ref(db, "chat");
         const themeRef = ref(db, "theme");
 
-        
+
         //クリックイベント（クリックした時に機能が処理されること）
         //idとしてsendがついた htmlの要素を押した時、
         //Jsで書いたとき→ document.getElementById("myCheck").click() { }
