@@ -64,8 +64,6 @@
 
         const db = getDatabase(app);
         const dbRef = ref(db, "chat");
-        const themeRef = ref(db, "theme");
-
 
         //クリックイベント（クリックした時に機能が処理されること）
         //idとしてsendがついた htmlの要素を押した時、
@@ -79,13 +77,12 @@
             set(newPostRef, msg);
         });
 
-
-        //IDとしてtextがついたHTMLの要素に入力した時、
+        //id="text"と設定したHTMLの要素に対して、キーボードを入力した時、eに押したキーボードの値を、引数として渡す。
         $("#text").on("keydown", function (e) {
             console.log(e); //表示
-            if (e.keyCode == 13) {
-                const msg = {
-                    uname: $("#uname").val(),
+            if (e.keyCode == 13) { //もしキーコードが１３番のエンタキーを押した時
+                const msg = { //定数としてmsgの箱を作ります。その中身は、オブジェクトです。オブジェクトにはプロパティのunameとtextがあります。
+                    uname: $("#uname").val(), //プロパティunameとセットで、id="uname"と設定したhtmlの要素に対して、その中身を持ってくる関数val(valueの略)を呼び出す
                     text: $("#text").val()
                 }
                 const newPostRef = push(dbRef);
@@ -93,11 +90,12 @@
             }
         });
 
+        //関数onChildAddedに、第一引数としてdbRef、第二引数として関数を渡す。
         onChildAdded(dbRef, function (data) {
             const msg = data.val();
             const key = data.key;
-            let h = '<p>';
-            h += msg.uname;
+            let h = '<p>'; //変数としてhという箱を作ります。その中身はpタグの頭です。
+            h += msg.uname; //変数hの中身にmsg.unameを追加。
             h += '<br>';
             h += msg.text;
             h += '</p>';
