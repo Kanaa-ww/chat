@@ -33,7 +33,6 @@
         <div id="output" style="overflow: auto;height: 300px;"></div>
     </div>
     <!--/ コンテンツ表示画面 -->
-
     <!-- JQueryとは、、＄を使って短く書けるようにするもの！ -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
     <!-- JQuery -->
@@ -62,7 +61,7 @@
         //定数としてappという箱を作ります。その中身は、firebaseConfignという引数を、
         // initializeAppという関数に渡した時の、戻り値（結果）です。
 
-        const db = getDatabase(app);
+        const db = getDatabase(app); //定数appを引数としてgetDatabaseという関数に渡した時の戻り値（結果）です。
         const dbRef = ref(db, "chat");
 
         //クリックイベント（クリックした時に機能が処理されること）
